@@ -9,7 +9,6 @@ A comprehensive Node.js SDK integration for 1Inch protocol, providing access to 
 - **Limit Orders**: Create and manage limit orders on 1Inch orderbook
 - **Permit Support**: ERC-2612 signature generation and execution
 - **Permit2 Integration**: Advanced permit functionality with Uniswap Permit2
-- **Permit3 Support**: Enhanced permit features for gasless approvals
 - **Cross-Chain Operations**: Support for multiple blockchain networks
 - **Transaction Monitoring**: Check order status and transaction details
 - **Token Approvals**: Automatic token approval management
@@ -62,7 +61,6 @@ A comprehensive Node.js SDK integration for 1Inch protocol, providing access to 
 │   ├── limit_order.js         # Limit order creation and management
 │   ├── permit.js              # ERC-2612 permit functionality
 │   ├── permit2.js             # Permit2 integration and management
-│   ├── permit3.js             # Enhanced permit3 features
 │   ├── check_transaction.js   # Transaction status monitoring
 │   └── Permit2.json           # Permit2 ABI
 ├── package.json               # Dependencies and scripts
@@ -144,22 +142,11 @@ const { main } = require('./src/permit2.js');
 await main();
 ```
 
-#### Permit3 Enhanced Features
-
-Advanced permit functionality with enhanced features:
-
-```javascript
-const { main } = require('./src/permit3.js');
-
-// Use enhanced permit3 features for complex approval scenarios
-await main();
-```
 
 #### Permit Types Overview
 
 - **ERC-2612 Permit**: Native token permit support (if token implements it)
 - **Permit2**: Universal permit system by Uniswap for all ERC-20 tokens
-- **Permit3**: Enhanced permit features with additional functionality
 
 The SDK automatically detects the best permit method for your token and falls back gracefully.
 
@@ -209,11 +196,6 @@ The SDK provides comprehensive support for gasless token approvals through multi
 - **Benefits**: Works with any ERC-20 token, advanced features
 - **File**: `src/permit2.js`
 
-### Permit3 (Enhanced Features)
-- **Purpose**: Advanced permit functionality with additional features
-- **Usage**: Complex approval scenarios and enhanced security
-- **Benefits**: Extended functionality, better user experience
-- **File**: `src/permit3.js`
 
 ### Automatic Fallback System
 The SDK automatically:
