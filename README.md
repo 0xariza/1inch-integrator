@@ -35,19 +35,20 @@ A comprehensive Node.js SDK integration for 1Inch protocol, providing access to 
 
 3. **Set up environment variables:**
    ```bash
-   cp env.example .env
+   # Create a .env file with the following variables:
+   touch .env
    ```
 
 4. **Configure your `.env` file:**
    ```env
-   # Your wallet private key (without 0x prefix)
+   # Your wallet private key (without 0x prefix) - REQUIRED
    PRIVATE_KEY=your_private_key_here
    
-   # RPC URL for the blockchain network
-   RPC_URL=your_rpc_url_here
+   # Your Alchemy API key for RPC access - REQUIRED
+   ALCHEMY_API_KEY=your_alchemy_api_key_here
    
-   # API key for 1Inch (optional for some operations)
-   API_KEY=your_1inch_api_key_here
+   # API key for 1Inch - REQUIRED
+   AUTH_KEY=your_1inch_api_key_here
    ```
 
 ## 📁 Project Structure
@@ -55,7 +56,6 @@ A comprehensive Node.js SDK integration for 1Inch protocol, providing access to 
 ```
 1Inch/
 ├── src/
-│   ├── config.js              # Configuration and environment setup
 │   ├── fusion.js              # Fusion swap implementation
 │   ├── fusion_plus.js         # Fusion Plus advanced features
 │   ├── limit_order.js         # Limit order creation and management
@@ -70,12 +70,22 @@ A comprehensive Node.js SDK integration for 1Inch protocol, providing access to 
 
 ## 🔧 Configuration
 
-The main configuration is handled in `src/config.js`. Key configuration options:
+Each file contains its own configuration section at the top. Key configuration options:
 
 - **Network Settings**: Chain IDs, RPC endpoints
 - **Token Addresses**: Source and destination token addresses
 - **Wallet Configuration**: Private key and wallet address
 - **API Keys**: 1Inch authentication keys
+
+### Environment Variables
+
+The following environment variables are **required**:
+
+- `PRIVATE_KEY`: Your wallet's private key (without 0x prefix)
+- `ALCHEMY_API_KEY`: Your Alchemy API key for RPC access
+- `AUTH_KEY`: Your 1Inch API key
+
+**Important**: All environment variables must be set before running any scripts. The application will throw an error if any required variable is missing.
 
 ## 📖 Usage Examples
 
@@ -242,7 +252,8 @@ Authorization: Bearer YOUR_API_KEY
 
 1. **"Missing required environment variables"**
    - Ensure your `.env` file is properly configured
-   - Check that all required variables are set
+   - Check that all required variables are set: `PRIVATE_KEY`, `ALCHEMY_API_KEY`, `AUTH_KEY`
+   - The application will throw clear error messages if any required variable is missing
 
 2. **"Insufficient allowance"**
    - Run token approval before executing swaps
