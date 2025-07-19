@@ -201,8 +201,7 @@ The SDK provides comprehensive support for gasless token approvals through multi
 The SDK automatically:
 1. Checks if token supports ERC-2612 permit
 2. Falls back to Permit2 if native permit is not supported
-3. Uses Permit3 for enhanced features when available
-4. Handles signature generation and validation securely
+3. Handles signature generation and validation securely
 
 ## 📊 API Integration
 
