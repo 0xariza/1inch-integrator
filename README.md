@@ -8,6 +8,8 @@ A comprehensive Node.js SDK integration for 1Inch protocol, providing access to 
 - **Fusion Plus**: Advanced Fusion functionality with enhanced features
 - **Limit Orders**: Create and manage limit orders on 1Inch orderbook
 - **Permit Support**: ERC-2612 signature generation and execution
+- **Permit2 Integration**: Advanced permit functionality with Uniswap Permit2
+- **Permit3 Support**: Enhanced permit features for gasless approvals
 - **Cross-Chain Operations**: Support for multiple blockchain networks
 - **Transaction Monitoring**: Check order status and transaction details
 - **Token Approvals**: Automatic token approval management
@@ -58,7 +60,9 @@ A comprehensive Node.js SDK integration for 1Inch protocol, providing access to 
 │   ├── fusion.js              # Fusion swap implementation
 │   ├── fusion_plus.js         # Fusion Plus advanced features
 │   ├── limit_order.js         # Limit order creation and management
-│   ├── permit.js              # ERC-2612 functionality
+│   ├── permit.js              # ERC-2612 permit functionality
+│   ├── permit2.js             # Permit2 integration and management
+│   ├── permit3.js             # Enhanced permit3 features
 │   ├── check_transaction.js   # Transaction status monitoring
 │   └── Permit2.json           # Permit2 ABI
 ├── package.json               # Dependencies and scripts
@@ -117,14 +121,47 @@ const result = await submitOrder(8453, orderHash, signature, message, extension)
 
 ### 3. Permit Operations
 
+#### ERC-2612 Permit (Native Token Permit)
+
 Generate and use ERC-2612 permit signatures for gasless approvals:
 
 ```javascript
 const { main } = require('./src/permit.js');
 
 // This will automatically detect if the token supports ERC-2612 Permit
+// and fall back to Permit2 if not supported
 await main();
 ```
+
+#### Permit2 Integration
+
+Use Uniswap's Permit2 for advanced permit functionality:
+
+```javascript
+const { main } = require('./src/permit2.js');
+
+// Execute Permit2-based fusion swap with gasless approval
+await main();
+```
+
+#### Permit3 Enhanced Features
+
+Advanced permit functionality with enhanced features:
+
+```javascript
+const { main } = require('./src/permit3.js');
+
+// Use enhanced permit3 features for complex approval scenarios
+await main();
+```
+
+#### Permit Types Overview
+
+- **ERC-2612 Permit**: Native token permit support (if token implements it)
+- **Permit2**: Universal permit system by Uniswap for all ERC-20 tokens
+- **Permit3**: Enhanced permit features with additional functionality
+
+The SDK automatically detects the best permit method for your token and falls back gracefully.
 
 ### 4. Check Transaction Status
 
@@ -153,6 +190,37 @@ console.log('Order Status:', status);
 - **Error Handling**: Comprehensive error catching and reporting
 - **Transaction Validation**: Pre-flight transaction checks
 - **Allowance Management**: Automatic token approval handling
+- **Permit Security**: Secure signature generation and validation
+- **Fallback Mechanisms**: Automatic fallback between permit types
+
+## 🔐 Permit System Integration
+
+The SDK provides comprehensive support for gasless token approvals through multiple permit systems:
+
+### ERC-2612 Permit (Native Token Permit)
+- **Purpose**: Gasless approvals for tokens that implement ERC-2612
+- **Usage**: Automatic detection and usage for supported tokens
+- **Benefits**: No additional contracts required, direct token integration
+- **File**: `src/permit.js`
+
+### Permit2 (Uniswap Universal Permit)
+- **Purpose**: Universal permit system for all ERC-20 tokens
+- **Usage**: Fallback for tokens without ERC-2612 support
+- **Benefits**: Works with any ERC-20 token, advanced features
+- **File**: `src/permit2.js`
+
+### Permit3 (Enhanced Features)
+- **Purpose**: Advanced permit functionality with additional features
+- **Usage**: Complex approval scenarios and enhanced security
+- **Benefits**: Extended functionality, better user experience
+- **File**: `src/permit3.js`
+
+### Automatic Fallback System
+The SDK automatically:
+1. Checks if token supports ERC-2612 permit
+2. Falls back to Permit2 if native permit is not supported
+3. Uses Permit3 for enhanced features when available
+4. Handles signature generation and validation securely
 
 ## 📊 API Integration
 
@@ -174,7 +242,7 @@ Authorization: Bearer YOUR_API_KEY
 
 - **@1inch/fusion-sdk**: Official 1Inch Fusion SDK
 - **@1inch/cross-chain-sdk**: Cross-chain functionality
-- **@uniswap/permit2-sdk**: Permit2 support (for compatibility)
+- **@uniswap/permit2-sdk**: Permit2 support for universal permit functionality
 - **ethers**: Ethereum library for blockchain interactions
 - **web3**: Web3 library for additional functionality
 - **axios**: HTTP client for API requests
@@ -198,6 +266,8 @@ Authorization: Bearer YOUR_API_KEY
 2. **"Insufficient allowance"**
    - Run token approval before executing swaps
    - Check if the token supports ERC-2612 permit functionality
+   - Use Permit2 for tokens without native permit support
+   - Ensure proper permit signature generation
 
 3. **"Transaction failed"**
    - Verify sufficient gas balance
@@ -208,6 +278,12 @@ Authorization: Bearer YOUR_API_KEY
    - Verify your 1Inch API key is valid
    - Check API rate limits
    - Ensure correct endpoint URLs
+
+5. **"Permit signature failed"**
+   - Verify token supports the permit type you're using
+   - Check signature deadline hasn't expired
+   - Ensure correct nonce values for Permit2
+   - Verify permit data encoding is correct
 
 ### Debug Mode
 
